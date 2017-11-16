@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script id="vertex-shader" type="x-shader/x-vertex">
+attribute vec4 vPosition;
+varying vec4 originalPosition;
+uniform mat4 mModel;
+uniform mat4 mView;
+uniform mat4 mProjection;
+
+void main(){
+    gl_Position = mProjection * mView * mModel * vPosition;
+	originalPosition = vPosition;
+}
+</script>
+<script id="fragment-shader" type="x-shader/x-fragment">
+precision mediump float;
+varying vec4 originalPosition;
+
+void main() {
+	if(originalPosition.y < 0.2)
+		gl_FragColor = vec4(0.0, 0.0, 1.0, 1.0);
+	else gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+}
+</script>
+<script type="text/javascript" src="../Common/webgl-utils.js"></script>
+<script type="text/javascript" src="../Common/initShaders.js"></script>
+<script type="text/javascript" src="../Common/MV.js"></script>
+<script type="text/javascript" src="3d.js"></script>
+<script type="text/javascript" src="cube.js"></script>
+<script type="text/javascript" src="sphere.js"></script>
+</head>
+<body>
+    <title>3d</title>
+    <canvas id="gl-canvas" width="512" height="512">
+        Oops... your browser doesn't support the HTML5 canvas element"
+    </canvas>  <br />
+	Translação: <br />
+	<div>
+		x:<input id="xTranslation" type="range" min="-1" max="1" step="0.1" value ="0"/>
+		y:<input id="yTranslation" type="range" min="-1" max="1" step="0.1" value ="0"/>
+		z:<input id="zTranslation" type="range" min="-1" max="1" step="0.1" value ="0"/>
+	</div> <br />
+	Escala: <br />
+	<div>
+		x:<input id="xScale" type="range" min="0.05" max="2" step="0.1" value ="1"/>
+		y:<input id="yScale" type="range" min="0.05" max="2" step="0.1" value ="1"/>
+		z:<input id="zScale" type="range" min="0.05" max="2" step="0.1" value ="1"/>
+	</div> <br />
+	Rotação: <br />
+	<div>
+		x:<input id="xRotation" type="range" min="-180" max="180" step="1" value ="1"/>
+		y:<input id="yRotation" type="range" min="-180" max="180" step="1" value ="1"/>
+		z:<input id="zRotation" type="range" min="-180" max="180" step="1" value ="1"/>
+	</div> <br />
+	<div>
+	<button id="cube">New Cube</button>
+	<button id="sphere">New Sphere</button>
+	<button id="reset">Reset Shape</button>
+	<button id="fullReset">Full Reset</button>
+	</div>
+</body>
+</html>
